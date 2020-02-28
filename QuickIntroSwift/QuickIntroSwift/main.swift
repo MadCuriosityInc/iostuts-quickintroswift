@@ -1,6 +1,14 @@
-import UIKit
+//
+//  main.swift
+//  QuickIntroSwift
+//
+//  Created by Matthew Quiros on 2/28/20.
+//  Copyright © 2020 Matthew Quiros. All rights reserved.
+//
 
-// MARK: - Declarations, Data Types
+import Foundation
+
+// MARK: - Declarations
 
 let number: Int = 5																	// declaration with type annotation
 let name = "Matt"																		// declaration without type annotation
@@ -8,8 +16,10 @@ let name = "Matt"																		// declaration without type annotation
 var volume = 10
 volume = 20																					// variables can be mutated
 let perfectScore = 100
-//perfectScore = 50																	// error: constants can't be mutated
-//volume = "Matt"																		// error: can't assign string to int type
+//perfectScore = 50																	// COMPILE ERROR: constants can't be mutated
+//volume = "Matt"																		// COMPILE ERROR: can't assign string to int type
+
+// MARK: Data Types
 
 var integer: Int = 1																// positive integer
 integer = -3																				// negative integer
@@ -30,30 +40,32 @@ let char: Character = "c"
 let emoji: Character = "❤️"													// emojis are valid chars
 let 🐷 = "pig"																			// emojis can be used as constant names
 
-var anyVar: Any = 1																	// the Any type accepts any type
-anyVar = "Now it's a string"
-anyVar = false
+var anyValue: Any = 1																// the Any type accepts any type
+anyValue = "Now it's a string"
+anyValue = false
 
-var anyObject: AnyObject = UILabel()								// AnyObject accepts instances of classes
+var anyObject: AnyObject = RelativeDateTimeFormatter()		// AnyObject accepts instances of classes
 anyObject = BlockOperation()
 
-anyVar = UILabel()																	// Any can hold objects
-//anyObject = 5																			// AnyObject can't hold non-objects
+anyValue = OperationQueue()				// Any can hold objects
+//anyObject = 5										// COMPILE ERROR: AnyObject can't hold non-objects
 
 // MARK: - Arrays
 
+print("## COLLECTIONS\n")
+
 var integers = [-2, 0, 1, 5, 10]
-integers[0] // -2
-integers.count
+print(integers[0])
+print(integers.count)
 integers[0] = -4
 integers.append(12)
-//integers.append(3.14159265359)										// COMPILE ERROR
+//integers.append(3.14159265359)	// COMPILE ERROR: array has already been inferred to be [Int]
 
 integers = []
 var newArray = [String]()
-let randomArray: [Any] = [1, 0.3333, true, "Matt", [1, 3.1415, "Quiros"]]
+let randomArray: [Any] = [1, 0.3333, true, "John", [1, 3.1415, "Doe"]]
 
-// MARK: - Dictionaries
+// MARK: Dictionaries
 
 var user: [String : String] = [
 	"email": "matt@email.com",
@@ -68,34 +80,38 @@ let badJson: [AnyHashable : Any] = [
 	1 : true,
 	5.5555 : ["Hello", false, -3.33]
 ]
-badJson
+print(badJson)
 
-// MARK: - Sets
+// MARK: Sets
 
 var starks: Set<String> = ["Robb", "Sansa", "Bran", "Arya", "Rickon"]
-starks.contains("Jon")
+print(starks.contains("Jon"))
 starks.insert("Jon")
 starks = []
-starks.count
+print(starks.count)
 
 // MARK: - Tuples
 
+print("\n## TUPLES\n")
+
 // Labelled elements
 let httpResponse = (statusCode: 404, message: "Page not found")
-httpResponse.statusCode
-httpResponse.message
+print(httpResponse.statusCode)
+print(httpResponse.message)
 
 // Access by index
 let httpResponse2 = (200, "Success")
-httpResponse.0
-httpResponse.1
+print(httpResponse2.0)
+print(httpResponse2.1)
 
 // Tuple decomposition
 let (statusCode, message) = (500, "Internal server error")
-statusCode
-message
+print(statusCode)
+print(message)
 
 // MARK: - Conditionals
+
+print("\n## CONDITIONALS\n")
 
 let grade = Int.random(in: 0...100)
 if grade < 80 {																			// braces are required even for one-line ifs
@@ -107,6 +123,8 @@ if grade < 80 {																			// braces are required even for one-line ifs
 }
 
 // MARK: - Optionals
+
+print("\n## OPTIONALS\n")
 
 var objectId: Int?																	// Use the question mark to make an optional type
 if objectId != nil {																// Optionals can be used in equality checks against nil
@@ -145,7 +163,7 @@ if let images = userJson["images"] as? [String : String],
 }
 
 // Using guard block ("early exit")
-func someFunc() {
+func someFunction() {
 	guard let images = userJson["images"] as? [String : String],
 		let largeImage = images["lg"]
 		else {
@@ -160,14 +178,57 @@ let numberOfMembers = members?.count ?? 0
 
 // Implicitly unwrapped optionals
 var database: [Int : String]!
-
-if database == nil {
+if database == nil { // can check for equality against nil
 	print("database is nil")
 }
+if let database = database { // can do optional binding
+	print(database)
+}
+//print(database.keys.contains(1101))			// RUNTIME CRASH
 
-if let database = database {
-	// do something ...
+// MARK: - Loops
+
+print("\n## LOOPS\n")
+
+// Basic for-in
+let animals = ["frog", "gecko", "turtle", "rat"]
+for animal in animals {
+	print(animal)
 }
 
-let itemId = 1101
-database[itemId]
+// Use tuple decomposition to traverse dictionaries
+let capitals = [
+	"Laos" : "Vientiane",
+	"Philippines" : "Manila",
+	"Vietnam" : "Hanoi"
+]
+for (key, value) in capitals {
+	print("Country: \(key), Capital: \(value)")
+}
+
+// Can be used on numeric ranges
+var factorial = 1
+for i in 1...5 {
+	factorial *= i
+}
+
+// Use the _ wildcard if you don't need the iterator
+for _ in 0..<5 {
+	print("*")
+}
+
+// while loop
+var i = 0
+while i < animals.count {
+	print(animals[i])
+	i += 1
+}
+
+// repeat-while
+i = 0
+repeat {
+	print(animals[i])
+	i += 1
+} while i < 0
+
+print()
