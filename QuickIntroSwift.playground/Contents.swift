@@ -138,11 +138,13 @@ let userJson: [String : Any] = [
 	]
 ]
 
+// Using if-let
 if let images = userJson["images"] as? [String : String],
 	   let largeImage = images["lg"] {
 	   print(largeImage) // largeImage accessible only inside if-let block
 }
 
+// Using guard block ("early exit")
 func someFunc() {
 	guard let images = userJson["images"] as? [String : String],
 		let largeImage = images["lg"]
@@ -155,3 +157,17 @@ func someFunc() {
 // Nil-coalescing operator
 var members: [String]?
 let numberOfMembers = members?.count ?? 0
+
+// Implicitly unwrapped optionals
+var database: [Int : String]!
+
+if database == nil {
+	print("database is nil")
+}
+
+if let database = database {
+	// do something ...
+}
+
+let itemId = 1101
+database[itemId]
